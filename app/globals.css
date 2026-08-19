@@ -1,1 +1,40 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: #131313;
+  --color-surface: #202020;
+  --color-foreground: #e5e2e1;
+  --color-muted: #b9cacb;
+  --color-muted-foreground: #5d5f5f;
+  --color-primary: #dbfcff;
+  --color-accent: #00f0ff;
+  --color-border: #3b494b;
+
+  --text-display: 5rem;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
+  --font-label: var(--font-geist), ui-monospace, monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-background font-sans text-base leading-relaxed text-foreground antialiased;
+  }
+
+  h1 {
+    @apply font-heading text-5xl font-extrabold leading-none tracking-tight md:text-display md:tracking-tighter;
+  }
+
+  h2 {
+    @apply font-heading text-3xl font-bold leading-tight tracking-tight md:text-5xl;
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+  }
+
+  small {
+    @apply text-xs;
+  }
+}
