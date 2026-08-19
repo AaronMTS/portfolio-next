@@ -34,11 +34,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${syne.variable} ${geist.variable} h-full antialiased`}
+      className={`${inter.variable} ${syne.variable} ${geist.variable} h-full antialiased overflow-y-auto scrollbar-none`}
     >
       <body className="min-h-dvh">
         <Navbar />
-        <main className="pt-8">{children}</main>
+        <main className="max-w-7xl mx-auto pt-8">{children}</main>
       </body>
     </html>
   );
