@@ -3,6 +3,8 @@
 @theme {
   --color-background: #040404;
   --color-lighterBg: #131313;
+  --color-surfaceLowest: #0e0e0e;
+  --color-surfaceLower: #1e1e1e;
   --color-surface: #202020;
   --color-foreground: #e5e2e1;
   --color-muted: #b9cacb;
@@ -25,11 +27,11 @@
   }
 
   h1 {
-    @apply font-heading text-5xl font-extrabold leading-none tracking-tight md:text-display md:tracking-tighter;
+    @apply font-heading text-4xl font-extrabold leading-none tracking-tight md:text-display md:tracking-tighter lg:text-5xl;
   }
 
   h2 {
-    @apply font-heading text-3xl font-bold leading-tight tracking-tight md:text-5xl;
+    @apply font-heading text-3xl font-bold leading-tight tracking-tight lg:text-4xl;
   }
 
   p {
