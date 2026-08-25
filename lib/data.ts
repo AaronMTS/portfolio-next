@@ -81,6 +81,16 @@ export async function getWorks() {
   return works;
 }
 
+export async function getPersonalProjects() {
+  const { data: projects } = await supabase
+    .from("projects")
+    .select()
+    .eq("type", "personal")
+    .order("sort_order");
+
+  return projects;
+}
+
 export async function getProjectImages(projectId: number) {
   const { data: images, error } = await supabase
     .from("project-images")
