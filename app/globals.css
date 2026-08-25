@@ -14,7 +14,7 @@
   --color-borderColor: #3b494b;
 
   --text-xxs: 10px;
-  --text-display: 5rem;
+  --text-display: 4rem;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
@@ -27,7 +27,7 @@
   }
 
   h1 {
-    @apply font-heading text-4xl font-extrabold leading-none tracking-tight md:text-display md:tracking-tighter lg:text-5xl;
+    @apply font-heading text-4xl font-extrabold leading-none tracking-tight md:text-5xl md:tracking-tighter lg:text-display;
   }
 
   h2 {
@@ -40,5 +40,11 @@
 
   small {
     @apply text-xs;
+  }
+}
+
+@layer components {
+  .bg-primary-grid-dots {
+    @apply bg-size-[24px_24px] bg-radial from-accent/30 from-[1px] to-transparent to-[1px] group-hover:from-accent/60;
   }
 }

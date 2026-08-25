@@ -5,7 +5,10 @@ const cookieStore = await cookies();
 const supabase = createClient(cookieStore);
 
 export async function getTechnologies() {
-  const { data: tech } = await supabase.from("profile_techs").select();
+  const { data: tech } = await supabase
+    .from("profile_techs")
+    .select()
+    .order("sort_order");
 
   if (!tech) {
     return [
@@ -66,4 +69,46 @@ export async function getProfileLinks() {
   }
 
   return data;
+}
+
+export async function getWorks() {
+  const { data: works } = await supabase
+    .from("projects")
+    .select()
+    .eq("type", "work")
+    .order("sort_order");
+
+  return works;
+}
+
+export async function getProjectImages(projectId: number) {
+  const { data: images, error } = await supabase
+    .from("project-images")
+    .select()
+    .eq("project_id", projectId);
+
+  if (error) {
+    console.error("Failed to fetch project images:", error);
+    return null;
+  }
+
+  const imagesWithUrl = (
+    await Promise.allSettled(
+      images.map(async (image) => {
+        const { data, error } = await supabase.storage
+          .from("project-images")
+          .createSignedUrl(image.image_path, 60 * 60);
+
+        if (error) {
+          throw error;
+        }
+
+        return { ...image, url: data.signedUrl };
+      }),
+    )
+  )
+    .filter((result) => result.status === "fulfilled")
+    .map((image) => image.value);
+
+  return imagesWithUrl;
 }
