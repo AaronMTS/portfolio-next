@@ -24,6 +24,11 @@ export const metadata: Metadata = {
   title: "AaronMTS",
   description:
     "My experiences and skills amassed over my web development journey.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
