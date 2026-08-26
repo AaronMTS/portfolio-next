@@ -1,6 +1,8 @@
-import { getProjectImages } from "@/lib/data";
+import { Suspense } from "react";
+
+import Thumbnail from "./Thumbnail";
 import { ArrowForward } from "@nine-thirty-five/material-symbols-react/outlined";
-import Image from "next/image";
+import ThumbnailSkeleton from "../ui/skeletons/projectCard/ThumbnailSkeleton";
 
 type Props = {
   index: number;
@@ -11,9 +13,10 @@ type Props = {
   title: string;
   description: string | null;
   no_image_notice: string;
+  live_url: string | null;
 };
 
-export default async function MainCard({
+export default function MainCard({
   index,
   id,
   role,
@@ -22,6 +25,7 @@ export default async function MainCard({
   title,
   description,
   no_image_notice,
+  live_url,
 }: Props) {
   const humanPercentClasses =
     !ai_generated_percent || ai_generated_percent <= 50
@@ -31,9 +35,6 @@ export default async function MainCard({
     ai_generated_percent && ai_generated_percent >= 50 ? "text-foreground" : "";
   let articleClasses =
     "group flex flex-col outline outline-accent/0 hover:outline-accent transition-colors duration-500";
-
-  const images = await getProjectImages(id);
-  const hasImages = images && images.length > 0;
   const isEvenCard = (index + 1) % 2 === 0;
 
   if (isEvenCard) {
@@ -42,33 +43,13 @@ export default async function MainCard({
 
   const ProjectCard = (
     <article className={articleClasses}>
-      <div className="shrink-0 relative bg-surface h-68 overflow-hidden md:h-84">
-        {hasImages && (
-          <div className="absolute top-1/2 left-1/2 -translate-1/2 size-[105%] scale-95 group-hover:scale-100 transition-transform duration-500">
-            <Image
-              src={images[0].url}
-              fill
-              alt={`Screenshot of ${title}`}
-              className="object-cover lg:grayscale-80 group-hover:grayscale-0 transition-[filter] duration-500"
-            />
-          </div>
-        )}
-        {!hasImages && (
-          <div className="bg-primary-grid-dots absolute top-1/2 left-1/2 -translate-1/2 size-[105%] scale-95 place-content-center group-hover:scale-100 transition-transform duration-500 *:mx-auto text-center space-y-0.5">
-            <p className="text-sm font-label font-semibold tracking-widest">
-              NO IMAGE
-            </p>
-            {no_image_notice && (
-              <>
-                <hr className="w-8 border-accent" />
-                <small className="text-xs font-label text-accent font-medium tracking-wider uppercase">
-                  {no_image_notice}
-                </small>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+      <Suspense fallback={<ThumbnailSkeleton />}>
+        <Thumbnail
+          projectId={id}
+          projectTitle={title}
+          noImageNotice={no_image_notice}
+        />
+      </Suspense>
       <div className="relative grow flex flex-col gap-6 bg-lighterBg p-10">
         <hr className="absolute top-0 left-0 w-full border-t-accent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         <div className="space-y-5">
@@ -99,17 +80,21 @@ export default async function MainCard({
             ))}
           </ul>
         </div>
-        <div className={`${hasImages ? "mb-6 " : ""}overflow-x-hidden`}>
+        <div className={`${live_url ? "mb-6 " : ""}overflow-x-hidden`}>
           <h2 className="mb-3 overflow-hidden text-ellipsis">{title}</h2>
           {description && <p>{description}</p>}
         </div>
-        {hasImages && (
-          <button className="mt-auto w-fit flex gap-1.5 items-center cursor-pointer hover:text-accent hover:gap-2.5 transition-[gap]">
+        {live_url && (
+          <a
+            href={live_url}
+            target="_blank"
+            className="mt-auto w-fit flex gap-1.5 items-center cursor-pointer hover:text-accent hover:gap-2.5 transition-[gap]"
+          >
             <span className="text-xs font-semibold tracking-wide">
-              VIEW LARGER IMAGE
+              VISIT WEBSITE
             </span>{" "}
             <ArrowForward className="size-4" />
-          </button>
+          </a>
         )}
       </div>
     </article>

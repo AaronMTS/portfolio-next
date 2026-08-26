@@ -13,12 +13,27 @@
   --color-accent: #00f0ff;
   --color-borderColor: #3b494b;
 
+  --background-image-loader: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    transparent 100%
+  );
+
   --text-xxs: 10px;
   --text-display: 4rem;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-heading: var(--font-syne), ui-sans-serif, system-ui, sans-serif;
   --font-label: var(--font-geist), ui-monospace, monospace;
+
+  --animate-slideFullRightLoop: slideFullRight 2s infinite;
+  @keyframes slideFullRight {
+    to {
+      transform: translateX(200%);
+    }
+  }
 }
 
 @layer base {
