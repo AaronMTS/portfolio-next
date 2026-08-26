@@ -27,7 +27,7 @@
   }
 
   h1 {
-    @apply font-heading text-4xl font-extrabold leading-none tracking-tight md:text-5xl md:tracking-tighter lg:text-display;
+    @apply font-heading text-4xl font-extrabold leading-none tracking-tight md:text-5xl md:tracking-tighter;
   }
 
   h2 {
@@ -41,6 +41,10 @@
   small {
     @apply text-xs;
   }
+}
+
+@utility outline-bottom-* {
+  box-shadow: 0 calc(--value(integer) * 1px) var(--color-foreground);
 }
 
 @layer components {
