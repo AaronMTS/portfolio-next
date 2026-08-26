@@ -1,10 +1,14 @@
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
 
-const cookieStore = await cookies();
-const supabase = createClient(cookieStore);
+async function getSupabase() {
+  const cookieStore = await cookies();
+  return createClient(cookieStore);
+}
 
 export async function getTechnologies() {
+  const supabase = await getSupabase();
+
   const { data: tech } = await supabase
     .from("profile_techs")
     .select()
@@ -25,6 +29,8 @@ export async function getTechnologies() {
 }
 
 export async function getProfileIntro() {
+  const supabase = await getSupabase();
+
   const { data: profile } = await supabase.from("profile").select("intro");
 
   if (!profile) {
@@ -41,6 +47,8 @@ I believe that code, much like design, should be elegant and intentional. By foc
 }
 
 export async function getCurrentFocus() {
+  const supabase = await getSupabase();
+
   const { data } = await supabase.from("profile").select("current_focus");
 
   if (!data) {
@@ -57,6 +65,8 @@ export async function getCurrentFocus() {
 }
 
 export async function getProfileLinks() {
+  const supabase = await getSupabase();
+
   const { data } = await supabase.from("profile").select("github,linkedin");
 
   if (!data) {
@@ -72,6 +82,8 @@ export async function getProfileLinks() {
 }
 
 export async function getWorks() {
+  const supabase = await getSupabase();
+
   const { data: works } = await supabase
     .from("projects")
     .select()
@@ -82,6 +94,8 @@ export async function getWorks() {
 }
 
 export async function getPersonalProjects() {
+  const supabase = await getSupabase();
+
   const { data: projects } = await supabase
     .from("projects")
     .select()
@@ -92,6 +106,8 @@ export async function getPersonalProjects() {
 }
 
 export async function getProjectImages(projectId: number) {
+  const supabase = await getSupabase();
+
   const { data: images, error } = await supabase
     .from("project-images")
     .select()
