@@ -43,7 +43,7 @@ jobs:
         run: pnpm run build
 
       - name: Install Vercel CLI
-        run: pnpm add --global vercel@latest
+        run: pnpm add --global vercel@latest && vercel telemetry disable
 
       - name: Verify Vercel authentication
         env:
