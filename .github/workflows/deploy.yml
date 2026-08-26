@@ -45,6 +45,13 @@ jobs:
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest
 
+      - name: Verify Vercel authentication
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          test -n "$VERCEL_TOKEN" || exit 1
+          vercel whoami --token="$VERCEL_TOKEN"
+
       - name: Deploy to Vercel
         id: deploy
         run: |
