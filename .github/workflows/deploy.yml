@@ -13,6 +13,11 @@ jobs:
 
     environment:
       name: production
+      url: ${{ steps.deploy.outputs.url }}
+
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
 
     concurrency: production
 
@@ -41,8 +46,11 @@ jobs:
         run: pnpm add --global vercel@latest
 
       - name: Deploy to Vercel
+        id: deploy
         run: |
-          vercel deploy \
+          URL=$(vercel deploy \
             --prod \
             --yes \
-            --token="${{ secrets.VERCEL_TOKEN }}"
+            --token="${{ secrets.VERCEL_TOKEN }}")
+
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
