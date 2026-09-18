@@ -9,6 +9,7 @@ on:
 
 jobs:
   deploy:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.head_commit.message, 'CI:')
     runs-on: ubuntu-latest
 
     environment:
@@ -39,9 +40,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build application
-        run: pnpm run build
-
       - name: Install Vercel CLI
         run: pnpm add --global vercel@latest && vercel telemetry disable
 
@@ -51,6 +49,11 @@ jobs:
         run: |
           test -n "$VERCEL_TOKEN" || exit 1
           vercel whoami --token="$VERCEL_TOKEN"
+
+      - name: Build Vercel artifact
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: vercel build --prod --yes --token="$VERCEL_TOKEN"
 
       - name: Deploy to Vercel
         id: deploy
