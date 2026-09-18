@@ -1,5 +1,5 @@
 import Loader from "../Loader";
 
 export default function ThumbnailSkeleton() {
-  return <Loader otherClasses="h-68 md:h-84" />;
+  return <Loader otherClasses="max-md:h-68 md:grow" />;
 }

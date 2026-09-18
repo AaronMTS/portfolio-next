@@ -1,20 +1,17 @@
-import { getWorks } from "@/lib/data";
-import MainCard from "@/components/project/MainCard";
+import { Suspense } from "react";
+import WorksAndProjectsWrapper from "@/components/works-and-projects/WorksAndProjectsWrapper";
+import ProjectsPageSkeleton from "@/components/ui/skeletons/ProjectsPageSkeleton";
 
 export default async function Work() {
-  const works = await getWorks();
-
   return (
     <section className="space-y-12">
       <header className="space-y-4">
         <h1 className="leading-[1.1]">Selected Works</h1>
         <hr className="w-24 border-t-4 border-accent" />
       </header>
-      <div className="grid gap-12 grid-cols-1 md:grid-cols-2 md:mb-24">
-        {works?.map((work, index) => (
-          <MainCard key={`${work.id}${work.title}`} index={index} {...work} />
-        ))}
-      </div>
+      <Suspense fallback={<ProjectsPageSkeleton projectQuantity={2} />}>
+        <WorksAndProjectsWrapper content="works" />
+      </Suspense>
     </section>
   );
 }

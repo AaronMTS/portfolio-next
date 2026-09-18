@@ -13,6 +13,7 @@ const nextConfig: NextConfig = {
     ],
   },
   allowedDevOrigins: ["192.169.254.101"],
+  cacheComponents: true,
 };
 
 export default nextConfig;

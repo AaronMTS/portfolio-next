@@ -29,7 +29,7 @@ async function ProfileLinks() {
       {linksArr.map((profileLink) => (
         <div key={profileLink[0]} className="relative h-fit self-center">
           <a
-            href={profileLink[1]}
+            href={profileLink[1] ?? undefined}
             target="_blank"
             className="peer flex gap-1 items-center text-muted cursor-pointer hover:text-foreground transition-colors"
           >
@@ -69,11 +69,11 @@ async function CurrentFocus() {
   return <>{currentFocus[0].current_focus}</>;
 }
 
-export default async function Home() {
+export default function Home() {
   return (
     <section className="flex flex-col gap-16 md:flex-row">
       <div className="space-y-10 md:w-2/3">
-        <h2 className="text-5xl text-primary mb-2">Hi</h2>
+        <h2 className="text-5xl text-primary mb-3">Hi</h2>
         <Suspense fallback={<IntroSkeleton />}>
           <Intro />
         </Suspense>
@@ -82,7 +82,7 @@ export default async function Home() {
             href="/work"
             className="flex gap-2 items-center bg-primary px-3 py-2.5 text-surface text-nowrap cursor-pointer hover:bg-accent transition-colors md:px-5 md:py-3"
           >
-            <span className="text-xxs md:text-xs md:font-semibold md:tracking-wider">
+            <span className="text-xxs md:text-xs md:font-semibold md:tracking-wider lg:text-sm">
               VIEW WORK
             </span>{" "}
             <ArrowForward className="size-5.5 md:size-6.5" />

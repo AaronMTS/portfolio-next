@@ -1,15 +1,31 @@
+import { createClient as createPublicClient } from "@supabase/supabase-js";
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
+import { Database, Tables } from "./database.types";
+import { cacheLife } from "next/cache";
+
+type Technologies = Omit<Tables<"profile_techs">, "id">[];
+type ProfileIntro = Pick<Tables<"profile">, "intro">[];
+type CurrentFocus = Pick<Tables<"profile">, "current_focus">[];
+type ProfileLinks = Pick<Tables<"profile">, "github" | "linkedin">[];
+export type WorksAndProjects = Tables<"projects">[] | null;
+type ProjectImages = (Tables<"project-images"> & { url: string })[] | null;
+
+const publicSupabase = createPublicClient<Database>(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
+);
 
 async function getSupabase() {
   const cookieStore = await cookies();
   return createClient(cookieStore);
 }
 
-export async function getTechnologies() {
-  const supabase = await getSupabase();
+export async function getTechnologies(): Promise<Technologies> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data: tech } = await supabase
+  const { data: tech } = await publicSupabase
     .from("profile_techs")
     .select()
     .order("sort_order");
@@ -28,10 +44,13 @@ export async function getTechnologies() {
   return tech;
 }
 
-export async function getProfileIntro() {
-  const supabase = await getSupabase();
+export async function getProfileIntro(): Promise<ProfileIntro> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data: profile } = await supabase.from("profile").select("intro");
+  const { data: profile } = await publicSupabase
+    .from("profile")
+    .select("intro");
 
   if (!profile) {
     return [
@@ -46,10 +65,11 @@ I believe that code, much like design, should be elegant and intentional. By foc
   return profile;
 }
 
-export async function getCurrentFocus() {
-  const supabase = await getSupabase();
+export async function getCurrentFocus(): Promise<CurrentFocus> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data } = await supabase.from("profile").select("current_focus");
+  const { data } = await publicSupabase.from("profile").select("current_focus");
 
   if (!data) {
     const fallback = `// Current focus
@@ -64,10 +84,13 @@ export async function getCurrentFocus() {
   return data;
 }
 
-export async function getProfileLinks() {
-  const supabase = await getSupabase();
+export async function getProfileLinks(): Promise<ProfileLinks> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data } = await supabase.from("profile").select("github,linkedin");
+  const { data } = await publicSupabase
+    .from("profile")
+    .select("github,linkedin");
 
   if (!data) {
     return [
@@ -81,10 +104,11 @@ export async function getProfileLinks() {
   return data;
 }
 
-export async function getWorks() {
-  const supabase = await getSupabase();
+export async function getWorks(): Promise<WorksAndProjects> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data: works } = await supabase
+  const { data: works } = await publicSupabase
     .from("projects")
     .select()
     .eq("type", "work")
@@ -93,10 +117,11 @@ export async function getWorks() {
   return works;
 }
 
-export async function getPersonalProjects() {
-  const supabase = await getSupabase();
+export async function getPersonalProjects(): Promise<WorksAndProjects> {
+  "use cache";
+  cacheLife("hours");
 
-  const { data: projects } = await supabase
+  const { data: projects } = await publicSupabase
     .from("projects")
     .select()
     .eq("type", "personal")
@@ -105,7 +130,9 @@ export async function getPersonalProjects() {
   return projects;
 }
 
-export async function getProjectImages(projectId: number) {
+export async function getProjectImages(
+  projectId: number,
+): Promise<ProjectImages> {
   const supabase = await getSupabase();
 
   const { data: images, error } = await supabase

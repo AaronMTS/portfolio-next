@@ -45,7 +45,7 @@ export default function RootLayout({
     >
       <body className="min-h-dvh">
         <Navbar />
-        <main className="max-w-7xl mx-auto pt-13 px-8 pb-5">{children}</main>
+        <main className="max-w-7xl mx-auto pt-13 px-8 pb-13">{children}</main>
         <Analytics />
         <SpeedInsights />
       </body>

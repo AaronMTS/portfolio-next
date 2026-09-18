@@ -7,7 +7,7 @@ export default function IntroSkeleton() {
         <Loader otherClasses="w-[96%]" />
         <Loader otherClasses="w-3/4" />
         <Loader otherClasses="w-[94%]" />
-        <Loader otherClasses="w-[90%]" />
+        <Loader otherClasses="w-[90%] xl:hidden" />
         <Loader otherClasses="w-[92%] lg:hidden" />
         <Loader otherClasses="w-[24%] md:hidden" />
       </div>
@@ -15,7 +15,7 @@ export default function IntroSkeleton() {
         <Loader otherClasses="w-[90%]" />
         <Loader otherClasses="w-[97%]" />
         <Loader otherClasses="w-[96%]" />
-        <Loader otherClasses="w-[92%]" />
+        <Loader otherClasses="w-[92%] xl:hidden" />
         <Loader otherClasses="w-[91%] lg:hidden" />
         <Loader otherClasses="w-[15%] md:hidden" />
       </div>

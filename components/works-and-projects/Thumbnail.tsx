@@ -16,7 +16,7 @@ export default async function Thumbnail({
   const hasImages = images && images.length > 0;
 
   return (
-    <div className="shrink-0 relative bg-surface h-68 overflow-hidden md:h-84">
+    <div className="shrink-0 relative bg-surface max-md:h-68 overflow-hidden md:grow">
       {hasImages && (
         <div className="absolute top-1/2 left-1/2 -translate-1/2 size-[105%] scale-95 group-hover:scale-100 transition-transform duration-500">
           <Image
